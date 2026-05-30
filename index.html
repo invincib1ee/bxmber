@@ -703,11 +703,15 @@
             logToTerminal(`❌ INVALID FORMAT! USE DIGITS + COUNTRY CODE`, 'error');
             return;
         }
-        if (cleanPhone.length === 10 && cleanPhone.startsWith('3')) cleanPhone = '92' + cleanPhone;
-        if (cleanPhone.length < 11) {
-            logToTerminal(`❌ NUMBER TOO SHORT. USE LIKE 923xxxxxxxxx`, 'error');
-            return;
-        }
+        // Check for a 10-digit Indian mobile number starting with 6, 7, 8, or 9
+if (cleanPhone.length === 10 && /^[6-9]/.test(cleanPhone)) {
+    cleanPhone = '91' + cleanPhone;
+}
+
+if (cleanPhone.length < 12) {
+    logToTerminal('❌ NUMBER TOO SHORT. USE LIKE 919xxxxxxxxxx', 'error');
+    return;
+}
         const amountRaw = parseInt(document.getElementById('registerAmount').value);
         let finalAmount = Math.min(amountRaw, 500);
         if (amountRaw > 500) logToTerminal(`⚠️ MAX 500 BURST FOR STABILITY`, 'info');
